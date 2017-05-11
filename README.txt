@@ -36,10 +36,13 @@ $ source ./.venv3/bin/activate
 # Install the requirements
 $ pip install -r ./requirements.txt
 
+# Make executable [OPTIONAL]  
+$ chmod +x ./dell_warranty_info.py
+
 #------------------------------------------------------------------------------#
 #                            Run the Program                                   #
 #------------------------------------------------------------------------------#
-(.venv3)...$ ./dell_warranty_info.py --help
+(.venv3)...$ [python] ./dell_warranty_info.py --help
 usage: dell_warranty_async.py [-h] [-o OUTPUT_FILE] [-l LIMIT_REQUESTS]
                               [-L LOG] -s
                               [SERIAL_NUMBERS [SERIAL_NUMBERS ...]]
