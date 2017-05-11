@@ -40,8 +40,9 @@ $ pip install -r ./requirements.txt
 #                            Run the Program                                   #
 #------------------------------------------------------------------------------#
 (.venv3)...$ ./dell_warranty_info.py --help
-usage: dell_warranty_info.py [-h] [-o OUTPUT_FILE] -s
-                             [SERIAL_NUMBERS [SERIAL_NUMBERS ...]]
+usage: dell_warranty_async.py [-h] [-o OUTPUT_FILE] [-l LIMIT_REQUESTS]
+                              [-L LOG] -s
+                              [SERIAL_NUMBERS [SERIAL_NUMBERS ...]]
 
 Small program to check Dell Warranty Info by Serial Number
 
@@ -49,6 +50,9 @@ optional arguments:
   -h, --help            show this help message and exit
   -o OUTPUT_FILE, --output-file OUTPUT_FILE
                         Output file
+  -l LIMIT_REQUESTS, --limit-requests LIMIT_REQUESTS
+                        Rate limit requests
+  -L LOG, --Log LOG     Log File
   -s [SERIAL_NUMBERS [SERIAL_NUMBERS ...]], --serial-numbers [SERIAL_NUMBERS [SERIAL_NUMBERS ...]]
                         list of serial numbers
 
