@@ -1,0 +1,7 @@
+2
+__pycache__
+venv
+*.csv
+*.json
+setup.py
+test.py

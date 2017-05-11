@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os.path
 from datetime import datetime
 import argparse
@@ -13,7 +15,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Small program to check Dell Warranty Info by Serial Number')
     parser.add_argument("-o", "--output-file", nargs=1,help="Output file", required=False)
     parser.add_argument("-l", "--limit-requests", nargs=1, help="Rate limit requests",
-                        type=int, default=10, required=False)
+                        type=int, default=100, required=False)
     parser.add_argument("-L", "--Log", nargs=1, help="Log File",
                         default='/tmp/dell_warranty_checker.log', required=False)
     parser.add_argument("-s", "--serial-numbers", nargs='*', help="list of serial numbers", required=True)
@@ -57,7 +59,7 @@ def main():
     args = parse_args()
     logging.basicConfig(filename=args.Log,level=logging.DEBUG)
 
-    for r in get_urls("https://qrl.dell.com/",args.serial_numbers, args.limit_requests[0]):
+    for r in get_urls("https://qrl.dell.com/",args.serial_numbers, args.limit_requests):
         try:
             x = parse_response(r)
             systems.append(x)
