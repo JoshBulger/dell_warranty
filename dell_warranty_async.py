@@ -45,10 +45,10 @@ def parse_response (response):
 
 def writeCSV(out_file, systems):
     with open(out_file, 'xt') as f:
-        w = csv.writer(f)
-        w.writerow(systems[0].keys())
-        for x in systems:
-            w.writerow(x.values())
+        fieldnames = systems[0].keys()
+        w = csv.DictWriter(f, fieldnames=fieldnames)
+        w.writeheader()
+        w.writerows(systems)
 
 def writeJSON(out_file, systems):
     with open(out_file, 'xt') as f:
