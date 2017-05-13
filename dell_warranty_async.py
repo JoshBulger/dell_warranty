@@ -8,6 +8,7 @@ import csv
 import sys
 import logging
 import grequests
+from collections import OrderedDict
 from bs4 import BeautifulSoup
 
 
@@ -45,7 +46,7 @@ def parse_response (response):
 
 def writeCSV(out_file, systems):
     with open(out_file, 'xt') as f:
-        fieldnames = systems[0].keys()
+        fieldnames = OrderedDict(sorted(systems[0].items())).keys()
         w = csv.DictWriter(f, fieldnames=fieldnames)
         w.writeheader()
         w.writerows(systems)
