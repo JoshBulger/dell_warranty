@@ -45,9 +45,9 @@ def parse_response (response):
         print("Coundn't Find System Information for: ", str(info['Serial_Number']))
 
 def writeCSV(out_file, systems):
+    KEYS = {x for y in systems for x in y.keys()}
     with open(out_file, 'xt') as f:
-        fieldnames = OrderedDict(sorted(systems[0].items())).keys()
-        w = csv.DictWriter(f, fieldnames=fieldnames)
+        w = csv.DictWriter(f, fieldnames=KEYS)
         w.writeheader()
         w.writerows(systems)
 
