@@ -8,7 +8,6 @@ import csv
 import sys
 import logging
 import grequests
-from collections import OrderedDict
 from bs4 import BeautifulSoup
 
 
@@ -39,6 +38,8 @@ def parse_response (response):
             v = x.split(': ')[1]
             if "date" in k.lower():
                 v = v[:v.find("T")]
+            if k == 'Provider' and v == 'UNY':
+                v = "DELL (UNY)"
             info[k] = v
         return info
     else:
