@@ -39,7 +39,7 @@ def parse_response (response):
             if "date" in k.lower():
                 v = v[:v.find("T")]
             if k == 'Provider' and v == 'UNY':
-                v = "DELL"
+                v = "Dell"
             info[k] = v
         return info
     else:
