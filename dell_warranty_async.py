@@ -27,23 +27,17 @@ def get_urls (base_url, serials_numbers, size = 100):
     return responses
 
 def parse_response (response):
-    info = {}
-    if response.status_code == 200:
-        info['Serial_Number'] = response.url[response.url.rfind("/")+1:]
-        print("Found System Information for: ", str(info['Serial_Number']))
-        bsObj = BeautifulSoup(response.text, "html.parser")
-        details = [line for line in bsObj.find("div", {"class":{"descriptionTxt"}}).findAll("p")[1].get_text().splitlines() if line.strip()]
-        for x in details:
-            k = x.split(': ')[0].replace(" ","_")
-            v = x.split(': ')[1]
-            if "date" in k.lower():
-                v = v[:v.find("T")]
-            if k == 'Provider' and v == 'UNY':
-                v = "Dell"
-            info[k] = v
-        return info
-    else:
-        print("Coundn't Find System Information for: ", str(info['Serial_Number']))
+    # Grab all class objects from html matching below
+    bsObj = BeautifulSoup(response.text, "html.parser").findAll("div", {"class":{"WarrantyInformation"}})
+    # Set infomation dictionary based on list comprehension of above (first object was '')
+    info = {x[1].replace(":",""):x[2] for x in [ line.get_text().splitlines() for line in bsObj]}
+    # Update date with desired format ('2013-10-23T00:00:00-05:00' => '2013-10-23')
+    info.update({x:info[x].split("T")[0] for x in info.keys() if "Date" in x})
+    # Insert Serial Number into dictionary
+    info['Serial Number'] = response.url[response.url.rfind("/")+1:]
+    # Fix format as requsted by DRohwer
+    info['Provider'] = 'Dell' if (info['Provider'].lower() == 'uny') else info['Provider'].title()
+    return info
 
 def writeCSV(out_file, systems):
     KEYS = {x for y in systems for x in y.keys()}
@@ -63,9 +57,8 @@ def main():
 
     for r in get_urls("https://qrl.dell.com/",args.serial_numbers, args.limit_requests):
         try:
-            x = parse_response(r)
-            systems.append(x)
-            logging.info("Success : %s" % x['Serial_Number'])
+            systems.append(parse_response(r))
+            print("Found System Information for: ", str(systems[-1]['Serial Number']))
         except AttributeError as e:
             print( "Error : %s Not Found" % r.url[r.url.rfind("/")+1:])
             logging.error("Error: %s" % r.url[r.url.rfind("/")+1:])
