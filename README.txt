@@ -27,7 +27,10 @@ $ scl enable rh-python35 bash
 # Enter the dell warranty directory
 $ cd dell_warranty
 
-# Create a python virtual environment
+# Create a python virtual environment (New Method)
+$ python -m venv .venv3
+
+# Create a python virtual environment (Old Method)
 $ pyvenv .venv3
 
 # Activate the virtual environment
